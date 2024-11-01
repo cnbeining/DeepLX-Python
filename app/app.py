@@ -123,11 +123,7 @@ class DeepLX:
             'sec-gpc': '1',
             'user-agent': 'DeepLBrowserExtension/1.28.0 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36',
         }
-        
-        self.client = httpx.AsyncClient(
-            headers=self.headers,
-            proxy=http_proxy,
-        )
+        self.http_proxy = http_proxy
 
 
     @staticmethod
@@ -205,7 +201,14 @@ class DeepLX:
         url = f"{self.url}?client=chrome-extension,1.28.0&method={url_method}"
 
         try:
-            response = await self.client.post(url, content=post_str)
+            async with httpx.AsyncClient(
+                headers=self.headers,
+                proxies=self.http_proxy
+            ) as client:
+                response = await client.post(
+                    url=url,
+                    content=post_str
+                )
             
             if not response.is_success:
                 return {'error': response.text}
