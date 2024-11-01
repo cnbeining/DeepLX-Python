@@ -19,7 +19,7 @@ This repo only implemented the `Free Endpoint`.
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/DeepLX-Python.git
+git clone https://github.com/cnbeining/DeepLX-Python.git
 cd DeepLX-Python
 ```
 
@@ -42,7 +42,7 @@ docker run -d -p 8000:8000 -e TOKEN=your,tokens,here deeplx-python
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/DeepLX-Python.git
+git clone https://github.com/cnbeining/DeepLX-Python.git
 cd DeepLX-Python
 ```
 
