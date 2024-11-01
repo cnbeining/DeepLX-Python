@@ -1,0 +1,15 @@
+# Web frameworks and servers
+flask>=2.0.0
+fastapi>=0.68.0
+uvicorn>=0.15.0
+
+# HTTP clients
+requests>=2.26.0
+httpx>=0.24.0
+
+# Data validation and parsing
+pydantic>=2.0.0
+brotli>=1.0.9
+
+# Common dependencies
+python-dotenv>=0.19.0 

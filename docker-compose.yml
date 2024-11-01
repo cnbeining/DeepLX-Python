@@ -1,0 +1,16 @@
+services:
+  deeplx:
+    build: .
+    container_name: deeplx-python
+    ports:
+      - "8000:8000"
+    environment:
+      - TOKEN=your,tokens,here
+      # Uncomment and modify if you need a proxy
+      # - PROXY=http://proxy.example.com:8080
+    restart: unless-stopped 
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: 1
