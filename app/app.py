@@ -224,8 +224,8 @@ class DeepLX:
     # Convert translation methods to async
     async def deepl_split_text(self, text: str, tag_handling: Optional[bool] = None) -> dict:
         source_lang = 'auto'
-        # Set text_type to richtext if tag_handling is True, otherwise use detection
-        text_type = 'richtext' if (tag_handling or self.is_richtext(text)) else 'plaintext'
+        # Set text_type to html if tag_handling is True, otherwise use detection
+        text_type = 'html' if (tag_handling or self.is_richtext(text)) else 'html'
         post_data = {
             "jsonrpc": "2.0",
             "method": "LMT_split_text",
