@@ -105,7 +105,7 @@ class DeepLX:
         Args:
             http_proxy (str, optional): HTTP proxy URL
         """
-        self.url = "https://www2.deepl.com/jsonrpc?client=chrome-extension,1.28.0"
+        self.url = "https://www2.deepl.com/jsonrpc?client=chrome-extension,1.29.0"
         self.headers = {
             'accept': '*/*',
             'accept-language': 'en-US,en;q=0.9,zh-CN;q=0.8,zh-TW;q=0.7,zh-HK;q=0.6,zh;q=0.5',
@@ -121,7 +121,7 @@ class DeepLX:
             'sec-fetch-mode': 'cors',
             'sec-fetch-site': 'none',
             'sec-gpc': '1',
-            'user-agent': 'DeepLBrowserExtension/1.28.0 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36',
+            'user-agent': 'DeepLBrowserExtension/1.29.0 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36',
         }
         self.http_proxy = http_proxy
 
@@ -348,7 +348,9 @@ async def translate(
     deepl_response = await translator.deepl_translate(
         text,
         request.source_lang,
-        request.target_lang
+        request.target_lang,
+        4,
+        True if request.tag_handling else False
     )
     
     if 'error' in deepl_response:

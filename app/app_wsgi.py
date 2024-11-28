@@ -62,6 +62,7 @@ class Translator(MethodView):
             req.text,
             req.source_lang,
             req.target_lang,
+            preferred_num_beams=4,
             tag_handling=req.tag_handling
         )
         
@@ -75,7 +76,7 @@ class Translator(MethodView):
 
 class DeepLX(object):
     def __init__(self, http_proxy=None):
-        self.url = "https://www2.deepl.com/jsonrpc?client=chrome-extension,1.28.0"
+        self.url = "https://www2.deepl.com/jsonrpc?client=chrome-extension,1.29.0"
         self.headers = {
             'accept': '*/*',
             'accept-language': 'en-US,en;q=0.9,zh-CN;q=0.8,zh-TW;q=0.7,zh-HK;q=0.6,zh;q=0.5',
@@ -91,7 +92,7 @@ class DeepLX(object):
             'sec-fetch-mode': 'cors',
             'sec-fetch-site': 'none',
             'sec-gpc': '1',
-            'user-agent': 'DeepLBrowserExtension/1.28.0 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36',
+            'user-agent': 'DeepLBrowserExtension/1.29.0 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36',
         }
         self.session = requests.Session()
         self.session.headers.update(self.headers)
@@ -229,11 +230,12 @@ class DeepLX(object):
         return self.make_deepl_request(post_str, url_method="LMT_split_text")
 
 
-    def deepl_translate(self, text, source_lang='auto', target_lang='en', preferred_num_beams=4, tag_handling=None):
+    def deepl_translate(self, text: str, source_lang: str = 'auto', target_lang: str = 'en', preferred_num_beams: int = 4, tag_handling: bool | None = None) -> dict:
         if not text:
             return {'error': 'No text to translate'}
-            
+
         split_result = self.deepl_split_text(text, tag_handling)
+
         if 'error' in split_result:
             return split_result
         # Set source_lang to detected language from split_result unless explicitly specified
@@ -253,10 +255,10 @@ class DeepLX(object):
                 context_before = [chunks[idx-1]['sentences'][0]['text']]
             if idx < len(chunks) - 1:
                 context_after = [chunks[idx+1]['sentences'][0]['text']]
-                
+
             jobs.append({
                 "kind": "default",
-                "preferred_num_beams": preferred_num_beams,
+                "preferred_num_beams": int(preferred_num_beams),
                 "raw_en_context_before": context_before,
                 "raw_en_context_after": context_after,
                 "sentences": [{
@@ -265,6 +267,7 @@ class DeepLX(object):
                     "id": idx + 1
                 }]
             })
+
         post_data = {
             "jsonrpc": "2.0",
             "method": "LMT_handle_jobs",
@@ -282,6 +285,7 @@ class DeepLX(object):
                 "timestamp": self.get_timestamp(i_count)
             }
         }
+        
         post_str = self.format_post_string(post_data)
         return self.make_deepl_request(post_str, url_method="LMT_handle_jobs")
 
