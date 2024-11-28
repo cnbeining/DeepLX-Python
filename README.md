@@ -16,6 +16,14 @@ This repo only implemented the `Free Endpoint`.
 
 ### Using Docker (Recommended)
 
+#### Start with one-liner (Recommended)
+
+```bash
+docker run -d -p 8000:8000 -e TOKEN=your,tokens,here cnbeining/deeplx-python:latest
+```
+
+#### Building image yourself
+
 1. Clone the repository:
 
 ```bash
@@ -23,14 +31,7 @@ git clone https://github.com/cnbeining/DeepLX-Python.git
 cd DeepLX-Python
 ```
 
-2. Using Docker Compose (Recommended):
-
-```bash
-# Edit docker-compose.yml to set your tokens
-docker compose up -d
-```
-
-Or build and run the Docker container directly:
+2. Build and run locally:
 
 ```bash
 docker build -t deeplx-python .
@@ -114,13 +115,13 @@ curl -X POST "http://localhost:8000/translate" \
 
 ```json
 {
-"alternatives": ["translated alternatives"],
-"code": 200,
-"data": "translated text",
-"id": 123456,
-"method": "Free",
-"source_lang": "detected_language",
-"target_lang": "target_language"
+    "alternatives": ["translated alternatives"],
+    "code": 200,
+    "data": "translated text",
+    "id": 123456,
+    "method": "Free",
+    "source_lang": "detected_language",
+    "target_lang": "target_language"
 }
 ```
 
